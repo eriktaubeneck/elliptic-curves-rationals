@@ -7,10 +7,10 @@ class EllipticCurve(object):
       self.b = b
 
       self.discriminant = -16 * (4 * a*a*a + 27 * b * b)
-      if not self.isSmooth():
+      if not self.isSmooth:
          raise Exception("The curve %s is not smooth!" % self)
 
-
+   @property
    def isSmooth(self):
       return self.discriminant != 0
 
@@ -114,7 +114,7 @@ class Point(object):
    def __eq__(self, other):
       if isinstance(other, Ideal):
          return False
-      return self[0] == other[0] and self[1] == other[1]
+      return self.x == other.x and self.y == other.y
 
    def __ne__(self, other):
       return not self == other
@@ -126,7 +126,7 @@ class Point(object):
    # lexicographic ordering on points
    def __lt__(self, other):
       if isinstance(other, Ideal): return False
-      return self[0] < other[0] or (self[0] == other[0] and self[1] < other[1])
+      return self.x < other.x or (self.x == other.x and self.y < other.y)
    def __gt__(self, other):
       return other.__lt__(self)
    def __ge__(self, other):
@@ -161,5 +161,3 @@ class Ideal(Point):
 
    def __lt__(self, other):
       return True
-
-
