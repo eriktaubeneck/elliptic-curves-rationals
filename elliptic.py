@@ -123,10 +123,6 @@ class Point(object):
    def __ne__(self, other):
       return not self == other
 
-   def __getitem__(self, index):
-      if index > 1 or index < -2: raise IndexError("Points have only two coordinates")
-      return self.x if index == 0 or index == -2 else self.y
-
    # lexicographic ordering on points
    def __lt__(self, other):
       self._assert_same_curves(other)
