@@ -107,11 +107,15 @@ class Point(object):
 
                 return R
 
-
    def __rmul__(self, n):
       return self * n
 
+   def _assert_same_curves(self, other):
+      if self.curve != other.curve:
+         raise Exception("Cannot compare points on different curves.")
+
    def __eq__(self, other):
+      self._assert_same_curves(other)
       if isinstance(other, Ideal):
          return False
       return self.x == other.x and self.y == other.y
@@ -125,6 +129,7 @@ class Point(object):
 
    # lexicographic ordering on points
    def __lt__(self, other):
+      self._assert_same_curves(other)
       if isinstance(other, Ideal): return False
       return self.x < other.x or (self.x == other.x and self.y < other.y)
    def __gt__(self, other):
@@ -157,7 +162,8 @@ class Ideal(Point):
          return self
 
    def __eq__(self, other):
+      self._assert_same_curves(other)
       return isinstance(other, Ideal)
 
    def __lt__(self, other):
-      return True
+      return self != other
